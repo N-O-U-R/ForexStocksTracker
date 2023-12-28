@@ -1,30 +1,26 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './src/screens/HomeScreen';
-import PortfolioScreen from './src/screens/PortfolioScreen';
-import AlertsScreen from './src/screens/AlertsScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './src/screens/Login'; 
+import SignUpScreen from './src/screens/SignUp'; 
+import TrackerScreen from './src/screens/Tracker';
+import ChangePasswordScreen from './src/screens/ChangePassword';
+import ExchangeRatesScreen from './src/screens/ExchangeRateScreen';
 
-const Tab = createBottomTabNavigator();
+
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: { backgroundColor: '#121212' },
-          tabBarActiveTintColor: '#ffffff',
-          tabBarInactiveTintColor: '#808080',
-          headerStyle: { backgroundColor: '#121212' },
-          headerTintColor: '#fff',
-        }}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Portfolio" component={PortfolioScreen} />
-        <Tab.Screen name="Alerts" component={AlertsScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Tracker" component={TrackerScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} options={{headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white' }}/>
+        <Stack.Screen name ="ExchangeRates" component={ExchangeRatesScreen} options={{headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white' , title:'Exchange Rates'}}/>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
