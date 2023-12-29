@@ -24,7 +24,7 @@ const AlertsScreen = () => {
 const styles = StyleSheet.create({
   alertItem: {
     width: '100%',
-    backgroundColor: '#1e1e1e',
+    backgroundColor: '#2f2f2f',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,

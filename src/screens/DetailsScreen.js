@@ -76,6 +76,7 @@ const DetailsScreen = ({ route }) => {
                     { label: '5 Year', value: '5Y' },
                     { label: 'All Times', value: 'MAX' },
                 ]}
+                placeholder={{ label: "Select a period", value: null }}
                 style={styles}
             />
             {loading ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 10 }}>
