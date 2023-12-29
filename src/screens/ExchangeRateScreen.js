@@ -2,15 +2,15 @@ import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import ExchangeRate from '../components/ExchangeRate'; 
 
-const ExchangeRatesScreen = () => {
+const ExchangeRatesScreen = ({navigation}) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <ExchangeRate fromCurrency="USD" toCurrency="EUR" />
-            <ExchangeRate fromCurrency="GBP" toCurrency="USD" />
-            <ExchangeRate fromCurrency="EUR" toCurrency="USD" />
-            <ExchangeRate fromCurrency="EUR" toCurrency="TRY" />
-            <ExchangeRate fromCurrency="USD" toCurrency="TRY" />
-        </ScrollView>
+            <ExchangeRate fromCurrency="USD" toCurrency="EUR" navigation={navigation} />
+            <ExchangeRate fromCurrency="GBP" toCurrency="USD" navigation={navigation}/>
+            <ExchangeRate fromCurrency="EUR" toCurrency="USD" navigation={navigation}/>
+            <ExchangeRate fromCurrency="EUR" toCurrency="TRY" navigation={navigation}/>
+            <ExchangeRate fromCurrency="USD" toCurrency="TRY" navigation={navigation}/>
+        </ScrollView>   
     );
 };
 
