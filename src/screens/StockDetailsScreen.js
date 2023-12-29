@@ -8,27 +8,32 @@ import moment from 'moment';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const DetailsScreen = ({ route }) => {
-    const { fromCurrency, toCurrency } = route.params;
+const StockDetailsScreen = ({ route }) => {
+    const { symbol, name } = route.params;
     const [period, setPeriod] = useState('1D');
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [rate, setRate] = useState(0);
+    const [price, setPrice] = useState(0);
 
     const fetchData = async () => {
         try {
             const response = await axios({
                 method: 'GET',
-                url: 'https://real-time-finance-data.p.rapidapi.com/currency-time-series',
-                params: { from_symbol: fromCurrency, to_symbol: toCurrency, period, language: 'en' },
-                headers: {
-                    'X-RapidAPI-Key': 'af57e6220dmsh3a53bab76620d9ap1c5b55jsn0e4a35c95a07',
+                url: 'https://real-time-finance-data.p.rapidapi.com/stock-time-series',
+                params: {
+                    symbol: symbol,
+                    period,
+                    language: 'en'
+                  },
+                  headers: {
+                    'X-RapidAPI-Key': 'd00cf41887msh8dc3f122dbb6f89p12987bjsnef850f715bd7',
                     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
-                }
+                  }
             });
             const timeSeries = response.data.data.time_series;
             const chartLabels = Object.keys(timeSeries);
-            const chartValues = chartLabels.map(time => timeSeries[time].exchange_rate); let formattedLabels;
+            const chartValues = chartLabels.map(time => timeSeries[time].price); 
+            let formattedLabels;
             if (period === '1D') {
                 // Format for 1D - showing 4 labels throughout the day
                 const interval = Math.ceil(chartLabels.length / 4); // Calculate interval for 4 labels
@@ -46,7 +51,7 @@ const DetailsScreen = ({ route }) => {
                 labels: formattedLabels,
                 datasets: [{ data: chartValues }]
             });
-            setRate(response.data.data.exchange_rate);
+            setPrice(response.data.data.price);
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -55,12 +60,12 @@ const DetailsScreen = ({ route }) => {
 
     useEffect(() => {
         fetchData();
-    }, [period, fromCurrency, toCurrency]);
+    }, [period, symbol]);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.headerText}>{fromCurrency} to {toCurrency}</Text>
-            <Text style={styles.headerText}>Current Rate: {parseFloat(rate).toFixed(4)}</Text>
+            <Text style={styles.headerText}>{name}:{symbol}</Text>
+            <Text style={styles.headerText}>Price: {price}</Text>
             <RNPickerSelect
                 onValueChange={(value) => {
                     setPeriod(value);
@@ -93,7 +98,7 @@ const DetailsScreen = ({ route }) => {
                         backgroundColor: '#000000',  // Black background
                         backgroundGradientFrom: '#232323',  // Dark gray gradient start
                         backgroundGradientTo: '#3f3f3f',  // Light gray gradient end
-                        decimalPlaces: 4,  // 4 decimal places for rate
+                        decimalPlaces: 2,  // 2 decimal places for rate
                         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,  // White text color
                         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,  // White label color
                         strokeWidth: 4,  // Set line thickness to 0 to hide data lines
@@ -159,4 +164,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DetailsScreen;
+export default StockDetailsScreen;

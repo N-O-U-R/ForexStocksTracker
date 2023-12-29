@@ -6,7 +6,9 @@ import SignUpScreen from './src/screens/SignUp';
 import TrackerScreen from './src/screens/Tracker';
 import ChangePasswordScreen from './src/screens/ChangePassword';
 import ExchangeRatesScreen from './src/screens/ExchangeRateScreen';
-import DetailsScreen from './src/screens/DetailsScreen';
+import CurrencyDetailsScreen from './src/screens/CurrencyDetailsScreen';
+import StockQuoteScreen from './src/screens/StockQuoteScreen';
+import StockDetailsScreen from './src/screens/StockDetailsScreen';
 
 
 
@@ -21,7 +23,9 @@ export default function App() {
         <Stack.Screen name="Tracker" component={TrackerScreen} options={{headerShown: false}}/>
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} options={{headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white' }}/>
         <Stack.Screen name ="ExchangeRates" component={ExchangeRatesScreen} options={{headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white' , title:'Exchange Rates'}}/>
-        <Stack.Screen name ="Details" component={DetailsScreen} options={{headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white',title:''}}/>
+        <Stack.Screen name ="StockQuote" component={StockQuoteScreen} options={{headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white' , title:'Stock Quotes'}}/>
+        <Stack.Screen name ="CurrencyDetails" component={CurrencyDetailsScreen} options={{headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white',title:''}}/>
+        <Stack.Screen name ="StockDetails" component={StockDetailsScreen} options={{headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white',title:''}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

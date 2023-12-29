@@ -6,6 +6,7 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={globalStyles.container}>
       <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("ExchangeRates")}><Text style={styles.itemName}>Forex</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("StockQuote")}><Text style={styles.itemName}>Stocks</Text></TouchableOpacity>
     </View>
   );
 };

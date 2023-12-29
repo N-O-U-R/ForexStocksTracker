@@ -2,42 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
-const ExchangeRate = ({ fromCurrency, toCurrency, navigation }) => {
-    const [rate, setRate] = useState(0);
+const StockQuote = ({ symbol, name, navigation }) => {
+    const [price, setPrice] = useState(0);
 
     const fetchExchangeRate = async () => {
         try {
-            const response = await axios.get('https://real-time-finance-data.p.rapidapi.com/currency-exchange-rate', {
+            const response = await axios.get('https://real-time-finance-data.p.rapidapi.com/stock-quote', {
                 params: {
-                    from_symbol: fromCurrency,
-                    to_symbol: toCurrency,
+                    symbol: symbol,
                     language: 'en'
                 },
                 headers: {
-                    'X-RapidAPI-Key': '70e8d834b6mshdb8789fe3e0f469p1883a7jsn255256af8bf1',
+                    'X-RapidAPI-Key': '5d3583f4famsh01f25c37433d0e2p19867djsn30a03333a34d',
                     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
                 }
             });
-            setRate(response.data['data']['exchange_rate']);
+            setPrice(response.data['data']['price']);
         } catch (error) {
             console.error(error);
         }
     };
     const handlePress = () => {
-        navigation.navigate('CurrencyDetails', { fromCurrency, toCurrency });
+        navigation.navigate('StockDetails', { symbol,name });
     };
 
 
     useEffect(() => {
         fetchExchangeRate();
-        const interval = setInterval(fetchExchangeRate, 120000); // Fetch exchange rate every 3 seconds
+        const interval = setInterval(fetchExchangeRate, 120000); 
         return () => clearInterval(interval);
-    }, [fromCurrency, toCurrency]);
+    }, [symbol]);
 
     return (
         <TouchableOpacity style={styles.item} onPress={handlePress}>
-            <Text style={styles.symbol}>{fromCurrency} to {toCurrency}:</Text>
-            <Text style={styles.rate}>{parseFloat(rate).toFixed(4)}</Text>
+            <View style={styles.nameSymbolContainer}>
+                <Text style={styles.symbol}>{name}</Text>
+                <Text style={styles.name}>{symbol}</Text>
+            </View>
+            <Text style={styles.price}>{price}</Text>
         </TouchableOpacity>
     );
 };
@@ -52,8 +54,9 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    rate: {
+    price: {
         flex: 1,
         color: '#fff',
         fontSize: 18,
@@ -65,8 +68,20 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
-    }
+        paddingBottom: 7,
+    },
+    name: {
+        flex: 1,
+        color: '#ccc',
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
+    nameSymbolContainer: {
+        height: 40,
+        justifyContent: 'center',
+        flexDirection: 'column',
+    },
 });
 
-export default ExchangeRate;
+export default StockQuote;
 
