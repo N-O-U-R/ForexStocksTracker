@@ -14,7 +14,7 @@ const ExchangeRate = ({ fromCurrency, toCurrency, navigation }) => {
                     language: 'en'
                 },
                 headers: {
-                    'X-RapidAPI-Key': '70e8d834b6mshdb8789fe3e0f469p1883a7jsn255256af8bf1',
+                    'X-RapidAPI-Key': '63aa7ba31bmsh9c191c8515a306bp101640jsn83bb70cda994',
                     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
                 }
             });
@@ -30,7 +30,7 @@ const ExchangeRate = ({ fromCurrency, toCurrency, navigation }) => {
 
     useEffect(() => {
         fetchExchangeRate();
-        const interval = setInterval(fetchExchangeRate, 120000); // Fetch exchange rate every 3 seconds
+        const interval = setInterval(fetchExchangeRate, 60000); // Fetch exchange rate every 3 seconds
         return () => clearInterval(interval);
     }, [fromCurrency, toCurrency]);
 
