@@ -8,7 +8,7 @@ import moment from 'moment';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const CurrencyDetailsScreen = ({ route }) => {
+const CurrencyDetailsScreen = ({ route, navigation }) => {
     const { fromCurrency, toCurrency } = route.params;
     const [period, setPeriod] = useState('1D');
     const [chartData, setChartData] = useState(null);
@@ -22,7 +22,7 @@ const CurrencyDetailsScreen = ({ route }) => {
                 url: 'https://real-time-finance-data.p.rapidapi.com/currency-time-series',
                 params: { from_symbol: fromCurrency, to_symbol: toCurrency, period, language: 'en' },
                 headers: {
-                    'X-RapidAPI-Key': 'af57e6220dmsh3a53bab76620d9ap1c5b55jsn0e4a35c95a07',
+                    'X-RapidAPI-Key': '63aa7ba31bmsh9c191c8515a306bp101640jsn83bb70cda994',
                     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
                 }
             });
@@ -61,6 +61,14 @@ const CurrencyDetailsScreen = ({ route }) => {
         <View style={styles.container}>
             <Text style={styles.headerText}>{fromCurrency} to {toCurrency}</Text>
             <Text style={styles.headerText}>Current Rate: {parseFloat(rate).toFixed(4)}</Text>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('AddCurrency', { fromCurrency: fromCurrency, toCurrency: toCurrency, rate:rate})}
+                style={styles.button}>
+                <Text style={{
+                    color: '#fff', fontSize: 16,
+                    fontWeight: 'bold',
+                }}>Add Investment</Text>
+            </TouchableOpacity>
             <RNPickerSelect
                 onValueChange={(value) => {
                     setPeriod(value);
@@ -156,6 +164,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginHorizontal: 20,
         marginTop: 20,
+    },
+    button: {
+        width: '80%',
+        backgroundColor: '#3b3b3b',
+        borderRadius: 8,
+        padding: 15,
+        marginTop: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center', // Added property to center the button
     },
 });
 
