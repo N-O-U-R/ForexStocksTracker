@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, Button, TouchableOpacity,ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import moment from 'moment';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const StockDetailsScreen = ({ route }) => {
+const StockDetailsScreen = ({ route, navigation }) => {
     const { symbol, name } = route.params;
     const [period, setPeriod] = useState('1D');
     const [chartData, setChartData] = useState(null);
@@ -24,15 +24,15 @@ const StockDetailsScreen = ({ route }) => {
                     symbol: symbol,
                     period,
                     language: 'en'
-                  },
-                  headers: {
-                    'X-RapidAPI-Key': 'd00cf41887msh8dc3f122dbb6f89p12987bjsnef850f715bd7',
+                },
+                headers: {
+                    'X-RapidAPI-Key': '63aa7ba31bmsh9c191c8515a306bp101640jsn83bb70cda994',
                     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
-                  }
+                }
             });
             const timeSeries = response.data.data.time_series;
             const chartLabels = Object.keys(timeSeries);
-            const chartValues = chartLabels.map(time => timeSeries[time].price); 
+            const chartValues = chartLabels.map(time => timeSeries[time].price);
             let formattedLabels;
             if (period === '1D') {
                 // Format for 1D - showing 4 labels throughout the day
@@ -40,7 +40,7 @@ const StockDetailsScreen = ({ route }) => {
                 formattedLabels = chartLabels.filter((_, index) => {
                     return index % interval === 0; // Pick labels at calculated intervals
                 }).map(label => moment(label).format('HH:mm')); // Format as hours and minutes
-            }else {
+            } else {
                 const interval = Math.ceil(chartLabels.length / 4);
                 formattedLabels = chartLabels.filter((_, index) => {
                     return index % interval === 0;
@@ -64,8 +64,16 @@ const StockDetailsScreen = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.headerText}>{name}:{symbol}</Text>
-            <Text style={styles.headerText}>Price: {price}</Text>
+            <Text style={styles.headerText}>{name} {symbol}</Text>
+            <Text style={styles.headerText}>Price: ${price}</Text>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('AddInvestment', { investmentName: name, investmentPrice: price, investmentSymbol: symbol })}
+                style={styles.button}>
+                <Text style={{
+                    color: '#fff', fontSize: 16,
+                    fontWeight: 'bold',
+                }}>Add Investment</Text>
+            </TouchableOpacity>
             <RNPickerSelect
                 onValueChange={(value) => {
                     setPeriod(value);
@@ -85,8 +93,8 @@ const StockDetailsScreen = ({ route }) => {
                 style={styles}
             />
             {loading ? <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 10 }}>
-        <ActivityIndicator size="large" color="#FFFFFF" />
-    </View> :
+                <ActivityIndicator size="large" color="#FFFFFF" />
+            </View> :
                 <LineChart
                     data={{
                         ...chartData,
@@ -161,6 +169,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginHorizontal: 20,
         marginTop: 20,
+    },
+    button: {
+        width: '80%',
+        backgroundColor: '#3b3b3b',
+        borderRadius: 8,
+        padding: 15,
+        marginTop: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center', // Added property to center the button
     },
 });
 
