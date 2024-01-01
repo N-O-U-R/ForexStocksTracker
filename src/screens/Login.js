@@ -34,9 +34,9 @@ const Login = ({navigation}) => {
   };
   
 
-  const handleForgotPassword = () => {
-    // Handle forgot password logic here
-  };
+  // const handleForgotPassword = () => {
+  //   // Handle forgot password logic here
+  // };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -58,9 +58,9 @@ const Login = ({navigation}) => {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleForgotPassword}>
+      {/* <TouchableOpacity onPress={handleForgotPassword}>
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity onPress= {()=> navigation.navigate("SignUp") } >
         <Text style={styles.forgotPasswordText}>Don't have an account?</Text>
       </TouchableOpacity>
@@ -77,13 +77,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#1e1e1e',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
     color: 'white', // Added color property
   },
   input: {
-    width: '100%',
+    width: '95%',
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     color: 'black', // Added color property
   },
   button: {
-    width: '100%',
+    width: '95%',
     height: 40,
     backgroundColor: '#3498db',
     justifyContent: 'center',
