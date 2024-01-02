@@ -1,18 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
-import ExchangeRate from '../components/ExchangeRate'; 
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
+import ExchangeRate from '../components/ExchangeRate';
 
-const ExchangeRatesScreen = ({navigation}) => {
+const ExchangeRatesScreen = ({ navigation }) => {
+    const [exchangeRates, setExchangeRates] = useState([]);
+
+    useEffect(() => {
+        const fetchExchangeRates = async () => {
+            const querySnapshot = await getDocs(collection(db, "exchangeRates")); // Replace "exchangeRates" with your collection name
+            const rates = [];
+            querySnapshot.forEach((doc) => {
+                rates.push(doc.data());
+            });
+            setExchangeRates(rates);
+        };
+
+        fetchExchangeRates();
+    }, []);
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <ExchangeRate fromCurrency="USD" toCurrency="EUR" navigation={navigation} />
-            <ExchangeRate fromCurrency="GBP" toCurrency="USD" navigation={navigation}/>
-            <ExchangeRate fromCurrency="EUR" toCurrency="USD" navigation={navigation}/>
-            <ExchangeRate fromCurrency="EUR" toCurrency="TRY" navigation={navigation}/>
-            <ExchangeRate fromCurrency="USD" toCurrency="TRY" navigation={navigation}/>
+            {exchangeRates.map((rate, index) => (
+                <ExchangeRate
+                    key={index}
+                    fromCurrency={rate.fromCurrency}
+                    toCurrency={rate.toCurrency}
+                    navigation={navigation}
+                />
+            ))}
         </ScrollView>   
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {

@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
-import StockQuote from '../components/StockQuote'; 
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase'; // Ensure this points to your Firebase configuration
+import StockQuote from '../components/StockQuote';
 
-const StockQuoteScreen = ({navigation}) => {
+const StockQuoteScreen = ({ navigation }) => {
+    const [stockQuotes, setStockQuotes] = useState([]);
+
+    useEffect(() => {
+        const fetchStockQuotes = async () => {
+            const querySnapshot = await getDocs(collection(db, "stockQuotes")); // Replace "stockQuotes" with your collection name
+            const quotes = [];
+            querySnapshot.forEach((doc) => {
+                quotes.push(doc.data());
+            });
+            setStockQuotes(quotes);
+        };
+
+        fetchStockQuotes();
+    }, []);
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <StockQuote symbol="MSFT" name="Microsoft" navigation={navigation}/>
-            <StockQuote symbol="VTSAX" name="Vanguard" navigation={navigation}/>
-            <StockQuote symbol="AAPL:NASDAQ" name="Apple" navigation={navigation}/>
-            <StockQuote symbol="APC:ETR" name="Apple" navigation={navigation}/>
+            {stockQuotes.map((quote, index) => (
+                <StockQuote
+                    key={index}
+                    symbol={quote.symbol}
+                    name={quote.name}
+                    navigation={navigation}
+                />
+            ))}
         </ScrollView>   
     );
 };
@@ -19,11 +40,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#1e1e1e',
     },
-    item: {
-        fontSize: 20,
-        textAlign: 'center',
-        marginTop: 10,
-    }
 });
 
 export default StockQuoteScreen;

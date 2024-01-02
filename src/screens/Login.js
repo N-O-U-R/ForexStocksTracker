@@ -1,71 +1,74 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import React, { useState } from 'react';
-import { auth } from '../../firebase';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
+import { auth, db } from '../../firebase';
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from 'firebase/firestore';
 
-const Login = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Login = ({ navigation }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-  
-  if (auth.currentUser) {
-    navigation.navigate("Tracker");
-  } else {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigation.navigate("Tracker");
-      }
-    });
-  }
-
-  const handleLogin = () => {
-    if (email !== "" && password !== "") {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          navigation.navigate('Home');
-        })
-        .catch((error) => {
-          alert("Check your credentials again");
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user && !navigation.isFocused()) {
+                navigateBasedOnRole(user.uid);
+            }
         });
-      }
-    else {
-      alert("Please enter your credentials");
-    }
-  };
-  
 
-  // const handleForgotPassword = () => {
-  //   // Handle forgot password logic here
-  // };
+        return unsubscribe;  
+    }, [navigation]);
 
-  return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Sign In</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity onPress={handleForgotPassword}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity> */}
-      <TouchableOpacity onPress= {()=> navigation.navigate("SignUp") } >
-        <Text style={styles.forgotPasswordText}>Don't have an account?</Text>
-      </TouchableOpacity>
-    </KeyboardAvoidingView>
-  );
+    const navigateBasedOnRole = async (uid) => {
+        const userRef = doc(db, "users", uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists() && userSnap.data().role === 'admin') {
+            navigation.navigate("Admin"); 
+        } else {
+            navigation.navigate("Tracker"); 
+        }
+    };
+
+    const handleLogin = () => {
+        if (email === "" || password === "") {
+            alert("Please enter your credentials");
+            return;
+        }
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                navigateBasedOnRole(userCredential.user.uid);
+            })
+            .catch(() => {
+                alert("Check your credentials again");
+            });
+    };
+
+    return (
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <Text style={styles.title}>Login</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+            />
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Sign In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+                <Text style={styles.forgotPasswordText}>Don't have an account?</Text>
+            </TouchableOpacity>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({

@@ -13,7 +13,7 @@ const ProfileScreen = ({navigation}) => {
 
   let logout = () => {
     signOut(auth).then(() => {
-      navigation.popToTop();
+      navigation.replace('Login');
     });
   }
 
