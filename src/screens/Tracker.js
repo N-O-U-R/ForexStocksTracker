@@ -1,28 +1,47 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialIcons } from '@expo/vector-icons'; // Import MaterialIcons
+
+// Import your screen components
 import HomeScreen from './HomeScreen';
 import PortfolioScreen from './PortfolioScreen';
 import AlertsScreen from './AlertsScreen';
 import ProfileScreen from './ProfileScreen';
 
 const Tab = createBottomTabNavigator();
+
 export default function Tracker() {
   return (
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: { backgroundColor: '#121212',},
-          tabBarActiveTintColor: '#ffffff',
-          tabBarInactiveTintColor: '#808080',
-          headerStyle: { backgroundColor: '#121212', },
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center', // Add this line to center the header titles
-        }}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Portfolio" component={PortfolioScreen} />
-        <Tab.Screen name="Alerts" component={AlertsScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarStyle: { backgroundColor: '#121212' },
+        tabBarActiveTintColor: '#ffffff',
+        tabBarInactiveTintColor: '#808080',
+        headerStyle: { backgroundColor: '#121212' },
+        headerTintColor: '#fff',
+        headerTitleAlign: 'center',
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = 'home'; // 'home' for both focused and unfocused
+          } else if (route.name === 'Portfolio') {
+            iconName = focused ? 'work' : 'work'; // Use appropriate icons
+          } else if (route.name === 'Alerts') {
+            iconName = focused ? 'notifications' : 'notifications-none';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
+          }
+
+          // You can return any component that you like here!
+          return <MaterialIcons name={iconName} size={size} color={color} />;
+        }
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Portfolio" component={PortfolioScreen} />
+      <Tab.Screen name="Alerts" component={AlertsScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+    </Tab.Navigator>
   );
 }
