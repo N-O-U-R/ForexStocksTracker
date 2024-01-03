@@ -21,7 +21,7 @@ import StockItemDetailsScreen from './src/screens/StockItemDetailsScreen';
 import AdminScreen from './src/screens/AdminScreen'; // Admin screen
 import AdminCurrencyManagerScreen from './src/screens/AdminCurrencyManagerScreen';
 import AdminStockManagerScreen from './src/screens/AdminStockManagerScreen';
-import AdminUserManagerScreen from './src/screens/AdminUserManagerScreen'; 
+import AdminUserManagerScreen from './src/screens/AdminUserManagerScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,12 +59,12 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, gestureEnabled: false  }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Admin" component={AdminScreen} options={{ headerShown: false, gestureEnabled: false }}/>
-        <Stack.Screen name="AdminCurrencyManager" component={AdminCurrencyManagerScreen} options={{ headerShown: false}}/>
-        <Stack.Screen name="AdminStockManager" component={AdminStockManagerScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="AdminUserManager" component={AdminUserManagerScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'User Managment' }}  />
+        <Stack.Screen name="Admin" component={AdminScreen} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="AdminCurrencyManager" component={AdminCurrencyManagerScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'Currency Managment' }} />
+        <Stack.Screen name="AdminStockManager" component={AdminStockManagerScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'Stock Managment' }} />
+        <Stack.Screen name="AdminUserManager" component={AdminUserManagerScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'User Managment' }} />
 
         <Stack.Screen name="Tracker" component={TrackerScreen} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white' }} />
@@ -88,4 +88,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
