@@ -13,7 +13,7 @@ const StockQuote = ({ symbol, name, navigation }) => {
                     language: 'en'
                 },
                 headers: {
-                    'X-RapidAPI-Key': '63aa7ba31bmsh9c191c8515a306bp101640jsn83bb70cda994',
+                    'X-RapidAPI-Key': 'c0aa4cbc5amsh1b56d8a86031281p104771jsn86c95b1d0727',
                     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
                 }
             });
@@ -24,13 +24,13 @@ const StockQuote = ({ symbol, name, navigation }) => {
     };
 
     const handlePress = () => {
-        navigation.navigate('StockDetails', { symbol,name });
+        navigation.navigate('StockDetails', { symbol, name });
     };
 
 
     useEffect(() => {
         fetchExchangeRate();
-        const interval = setInterval(fetchExchangeRate, 60000); 
+        const interval = setInterval(fetchExchangeRate, 60000);
         return () => clearInterval(interval);
     }, [symbol]);
 
@@ -85,4 +85,3 @@ const styles = StyleSheet.create({
 });
 
 export default StockQuote;
-
