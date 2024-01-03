@@ -33,19 +33,19 @@ export default function App() {
   const navigationRef = useRef();
 
   useEffect(() => {
-    checkRatesAndNotify();
     registerBackgroundFetch();
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const userRef = doc(db, 'users', user.uid);
         const userDoc = await getDoc(userRef);
         const userRole = userDoc.exists() ? userDoc.data().role : 'user';
+        await requestNotificationPermission(user.uid);
 
         if (userRole === 'admin') {
           navigationRef.current?.navigate("Admin");
         } else {
           navigationRef.current?.navigate("Tracker");
-          await requestNotificationPermission(user.uid);
         }
       }
       setInitializing(false);

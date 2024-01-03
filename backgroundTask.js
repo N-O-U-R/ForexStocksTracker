@@ -5,14 +5,14 @@ import { checkRatesAndNotify } from './rateChecker'; // You will create this nex
 
 const BACKGROUND_FETCH_TASK = 'background-fetch-task';
 
-TaskManager.defineTask(BACKGROUND_FETCH_TASK, () => {
-  console.log('Background Fetch executed');
-  return BackgroundFetch.Result.NoData;
+TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+  const result = await checkRatesAndNotify();
+  return result ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData;
 });
 
 export const registerBackgroundFetch = async () => {
   await BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-    minimumInterval: 15, // Requesting to run as often as possible
+    minimumInterval: 1,
     stopOnTerminate: false,
     startOnBoot: true,
   });

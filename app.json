@@ -15,9 +15,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "supportsBackgroundFetch": true,
+      "usesApplePushNotifications": true,
+      "bundleIdentifier": "com.nour.forexstockstracker"
     },
     "android": {
+      "useNextNotificationsApi": true,
+      "enableBackgroundNotification": true,
+      "priority": "max",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
