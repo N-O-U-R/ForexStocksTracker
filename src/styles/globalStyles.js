@@ -8,9 +8,12 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#1e1e1e',
     padding: 20,
   },
-  title: {
-    fontSize: 20,
-    color: '#ffffff',
+  text: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingBottom: 7,
   },
   // Add more global styles here as needed
 });

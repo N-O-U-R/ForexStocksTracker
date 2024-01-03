@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
+import { registerBackgroundFetch } from './backgroundTask';
+import { requestNotificationPermission } from './notificationPermissions';
+import { checkRatesAndNotify } from './rateChecker';
 
 import LoginScreen from './src/screens/Login';
 import SignUpScreen from './src/screens/SignUp';
@@ -18,43 +20,43 @@ import AddInvestmentScreen from './src/screens/AddInvestmentScreen';
 import AddCurrencyScreen from './src/screens/AddCurrencyScreen';
 import CurrencyItemDetailsScreen from './src/screens/CurrencyItemDetailsScreen';
 import StockItemDetailsScreen from './src/screens/StockItemDetailsScreen';
-import AdminScreen from './src/screens/AdminScreen'; // Admin screen
+import AdminScreen from './src/screens/AdminScreen';
 import AdminCurrencyManagerScreen from './src/screens/AdminCurrencyManagerScreen';
 import AdminStockManagerScreen from './src/screens/AdminStockManagerScreen';
 import AdminUserManagerScreen from './src/screens/AdminUserManagerScreen';
+import SetAlarmScreen from './src/screens/setAlarmScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [initializing, setInitializing] = useState(true); // New state to track initialization
+  const [initializing, setInitializing] = useState(true);
+  const navigationRef = useRef();
 
   useEffect(() => {
+    checkRatesAndNotify();
+    registerBackgroundFetch();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Fetch the user's role
         const userRef = doc(db, 'users', user.uid);
         const userDoc = await getDoc(userRef);
         const userRole = userDoc.exists() ? userDoc.data().role : 'user';
 
-        // Navigate based on the role
         if (userRole === 'admin') {
           navigationRef.current?.navigate("Admin");
         } else {
           navigationRef.current?.navigate("Tracker");
+          await requestNotificationPermission(user.uid);
         }
       }
-      setInitializing(false); // Indicate initialization is complete
+      setInitializing(false);
     });
-
     return unsubscribe;
   }, []);
-
-  // Reference for navigation
-  const navigationRef = React.useRef();
 
   if (initializing) {
     return null; // or a loading indicator
   }
+
 
   return (
     <NavigationContainer>
@@ -74,17 +76,10 @@ export default function App() {
         <Stack.Screen name="StockDetails" component={StockDetailsScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: '' }} />
         <Stack.Screen name="AddInvestment" component={AddInvestmentScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'Add Investment' }} />
         <Stack.Screen name="AddCurrency" component={AddCurrencyScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'Add Currency' }} />
+        <Stack.Screen name="setAlarmScreen" component={SetAlarmScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'Set Alarm' }} />
         <Stack.Screen name="CurrencyItemDetails" component={CurrencyItemDetailsScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'Details' }} />
         <Stack.Screen name="StockItemDetails" component={StockItemDetailsScreen} options={{ headerStyle: { backgroundColor: '#121212' }, headerTintColor: 'white', title: 'Details' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

@@ -16,7 +16,6 @@ const ExchangeRatesScreen = ({ navigation }) => {
             });
             setExchangeRates(rates);
         };
-
         fetchExchangeRates();
     }, []);
 
@@ -30,7 +29,7 @@ const ExchangeRatesScreen = ({ navigation }) => {
                     navigation={navigation}
                 />
             ))}
-        </ScrollView>   
+        </ScrollView>
     );
 };
 
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         backgroundColor: '#1e1e1e',
-        alignItems: 'stretch', 
+        alignItems: 'stretch',
     },
     item: {
         fontSize: 20,

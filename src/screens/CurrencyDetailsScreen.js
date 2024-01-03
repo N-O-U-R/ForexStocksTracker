@@ -69,6 +69,11 @@ const CurrencyDetailsScreen = ({ route, navigation }) => {
                     fontWeight: 'bold',
                 }}>Add Investment</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('setAlarmScreen', { fromCurrency: fromCurrency, toCurrency: toCurrency, currentRate: rate })}
+                style={[styles.button, styles.alarmButton]}>
+                <Text style={styles.buttonText}>Set Rate Alarm</Text>
+            </TouchableOpacity>
             <RNPickerSelect
                 onValueChange={(value) => {
                     setPeriod(value);
@@ -174,6 +179,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center', // Added property to center the button
+    },
+    alarmButton: {
+        backgroundColor: '#4a90e2', 
+        marginTop: 10, 
     },
 });
 

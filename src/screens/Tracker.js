@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons'; // Import MaterialIcons
 // Import your screen components
 import HomeScreen from './HomeScreen';
 import PortfolioScreen from './PortfolioScreen';
-import AlertsScreen from './AlertsScreen';
+import AlarmsScreen from './AlarmsScreen';
 import ProfileScreen from './ProfileScreen';
 
 const Tab = createBottomTabNavigator();
@@ -27,7 +27,7 @@ export default function Tracker() {
             iconName = 'home'; // 'home' for both focused and unfocused
           } else if (route.name === 'Portfolio') {
             iconName = focused ? 'work' : 'work'; // Use appropriate icons
-          } else if (route.name === 'Alerts') {
+          } else if (route.name === 'Alarms') {
             iconName = focused ? 'notifications' : 'notifications-none';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
@@ -40,7 +40,7 @@ export default function Tracker() {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Portfolio" component={PortfolioScreen} />
-      <Tab.Screen name="Alerts" component={AlertsScreen} />
+      <Tab.Screen name="Alarms" component={AlarmsScreen} options={{title:'Price Alarms'}}/>
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
