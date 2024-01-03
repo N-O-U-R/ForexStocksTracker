@@ -43,7 +43,7 @@ const getFirestoreUserDataWithAlarms = async (userId) => {
 
       const alarmsSnapshot = await getDocs(collection(db, `users/${userId}/alarms`));
       userData.alarms = alarmsSnapshot.docs.map(alarmDoc => alarmDoc.data());
-
+      console.log(alarmsSnapshot) ;
       return [userData]; // Return an array containing only this user's data
   } catch (error) {
       console.error('Error in getFirestoreUserDataWithAlarms:', error);

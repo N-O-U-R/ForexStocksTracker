@@ -33,6 +33,7 @@ export default function App() {
   const navigationRef = useRef();
 
   useEffect(() => {
+    checkRatesAndNotify();
     registerBackgroundFetch();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
