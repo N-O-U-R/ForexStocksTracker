@@ -19,7 +19,6 @@ const AdminUserManagerScreen = ({ navigation }) => {
             const querySnapshot = await getDocs(collection(db, "users"));
             const userData = [];
             querySnapshot.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data());  // Log each document
                 userData.push({ id: doc.id, ...doc.data() });
             });
             setUsers(userData);

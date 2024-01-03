@@ -14,7 +14,7 @@ const ExchangeRate = ({ fromCurrency, toCurrency, navigation }) => {
                     language: 'en'
                 },
                 headers: {
-                    'X-RapidAPI-Key': 'c0aa4cbc5amsh1b56d8a86031281p104771jsn86c95b1d0727',
+                    'X-RapidAPI-Key': '3704aa17efmshc150cc51bc29685p1a8535jsndc6c4d2dc793',
                     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
                 }
             });

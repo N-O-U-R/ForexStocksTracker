@@ -15,7 +15,7 @@ const PortfolioStockItem = ({ id, name,symbol, shares, purchasePrice, navigation
                     language: 'en'
                 },
                 headers: {
-                    'X-RapidAPI-Key': '63aa7ba31bmsh9c191c8515a306bp101640jsn83bb70cda994',
+                    'X-RapidAPI-Key': '3704aa17efmshc150cc51bc29685p1a8535jsndc6c4d2dc793',
                     'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
                 }
             });

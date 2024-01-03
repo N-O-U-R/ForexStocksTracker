@@ -37,9 +37,9 @@ const ExchangeRatesScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
+        flexGrow: 1,
         backgroundColor: '#1e1e1e',
+        alignItems: 'stretch', 
     },
     item: {
         fontSize: 20,

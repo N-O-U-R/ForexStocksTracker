@@ -117,7 +117,7 @@ const AdminStockManagerScreen = ({ navigation }) => {
                         key={quote.id}
                         renderRightActions={() => renderRightActions(quote.id)}
                     >
-                        <View style={styles.stockItem}>
+                        <View>
                             <StockQuote
                                 symbol={quote.symbol}
                                 name={quote.name}

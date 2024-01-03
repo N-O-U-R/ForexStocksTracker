@@ -21,7 +21,7 @@ const StockQuoteScreen = ({ navigation }) => {
     }, []);
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={styles.container} >
             {stockQuotes.map((quote, index) => (
                 <StockQuote
                     key={index}
@@ -36,9 +36,9 @@ const StockQuoteScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
+        flexGrow: 1,
         backgroundColor: '#1e1e1e',
+        alignItems: 'stretch', 
     },
 });
 
