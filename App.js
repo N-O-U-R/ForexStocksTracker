@@ -33,7 +33,6 @@ export default function App() {
   const navigationRef = useRef();
 
   useEffect(() => {
-    registerBackgroundFetch();
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -41,7 +40,7 @@ export default function App() {
         const userDoc = await getDoc(userRef);
         const userRole = userDoc.exists() ? userDoc.data().role : 'user';
         await requestNotificationPermission(user.uid);
-
+        await registerBackgroundFetch();
         if (userRole === 'admin') {
           navigationRef.current?.navigate("Admin");
         } else {

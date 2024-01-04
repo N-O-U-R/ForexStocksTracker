@@ -13,7 +13,6 @@ export const requestNotificationPermission = async (userId) => {
     // Store this token in Firestore against the user's document
     const userDocRef = doc(db, 'users', userId); // Reference to the user's document
     await updateDoc(userDocRef, { notificationToken: token });
-    console.log("Notification permissions granted.");
   } else {
     // Handle denial of notification permission
     console.log("Notification permissions denied.");

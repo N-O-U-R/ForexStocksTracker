@@ -12,9 +12,10 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
 
 export const registerBackgroundFetch = async () => {
   await BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-    minimumInterval: 1,
+    minimumInterval: 15*60,
     stopOnTerminate: false,
     startOnBoot: true,
+
   });
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity,Platform } from 'react-native';
 import { auth, db } from '../../firebase';
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from 'firebase/firestore';
@@ -45,7 +45,7 @@ const Login = ({ navigation }) => {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : null}>
             <Text style={styles.title}>Login</Text>
             <TextInput
                 style={styles.input}
